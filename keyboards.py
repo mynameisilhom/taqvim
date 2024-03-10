@@ -1,3 +1,4 @@
+from aiogram import types
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -19,3 +20,10 @@ async def inline_regions():
     for region in regions:
         keyboard.add(InlineKeyboardButton(text=region, callback_data=f'{region}'))
     return keyboard.adjust(2).as_markup()
+
+
+change_region = [
+    [types.KeyboardButton(text="Bugungi vaqtlarni olish")],
+    [types.KeyboardButton(text="Xududni o\'zgartirish")]
+]
+keyboard = types.ReplyKeyboardMarkup(keyboard=change_region, resize_keyboard=True)

@@ -65,7 +65,7 @@ async def check_time_columns_and_send_text(connection, table_name, time_columns)
                 if message_key in sent_messages:
                     continue
                 if send_time_str == time_value_str:
-                    message_text = f"Bugungi {time_columns[j]} vaqti {region}da: {time_value}"
+                    message_text = f"{region}da bugungi {time_columns[j]} vaqti : {time_value}"
                     await send_message_to_users(message_text, region, table_name, today)
                     sent_messages.add(message_key)
         cursor.close()
