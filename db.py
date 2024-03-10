@@ -61,12 +61,16 @@ def save_prayer_times(prayer_times):
     for prayer_time in prayer_times:
         hijri_month = prayer_time['hijri_date']['month']
         hijri_day = prayer_time['hijri_date']['day']
+
+        # Remove 'Z' character from the ISO format date string
+        iso_date_string = prayer_time['date'][:-1]
+
         prayer = PrayerTime(
             region=prayer_time['region'],
             regionNumber=prayer_time['regionNumber'],
             month=prayer_time['month'],
             day=prayer_time['day'],
-            date=datetime.fromisoformat(prayer_time['date']).date(),
+            date=datetime.fromisoformat(iso_date_string).date(),
             hijri_month=hijri_month,
             hijri_day=hijri_day,
             weekday=prayer_time['weekday'],
