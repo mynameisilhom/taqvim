@@ -4,5 +4,5 @@ DATABASE = "mysql+mysqlconnector://root:root@localhost/ramazon"
 
 host = "localhost"
 user = "root"
-password = "root"
+password = "ramazonserver"
 database = "ramazon"
