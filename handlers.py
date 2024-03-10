@@ -1,8 +1,11 @@
+from datetime import date
+import subprocess
+from datetime import datetime
 import mysql.connector
 from aiogram import F, Router
 from aiogram.filters import CommandStart
 from aiogram.types import CallbackQuery, Message
-from datetime import date, datetime, time
+
 import keyboards as kb
 from config import host, user, password, database, ADMINS
 from scheduler import bot
@@ -94,8 +97,8 @@ async def choosen_region(callback: CallbackQuery):
     # Скрыть приветственное сообщение
     await callback.message.delete()
 
-    await callback.message.answer("Xududni o'zgartirish va bugungi kungi taqvimni pastgi tugmalar orqali olishingiz "
-                                  "mumkin", reply_markup=kb.keyboard)
+    await callback.message.answer("Xududni o'zgartirish, bugungi kungi taqvimni va vaqt muvofiqligini pastgi tugmalar "
+                                  "orqali olishingiz mumkin", reply_markup=kb.keyboard)
 
     cursor.close()
     connection.close()
@@ -119,13 +122,39 @@ async def admin_message_handler(message: Message):
             print(f"Failed to send message to user {user_id}: {e}")
 
 
+
+
+async def get_server_timezone():
+    # Выполнить команду 'timedatectl' и получить результат
+    result = subprocess.run(['timedatectl'], capture_output=True, text=True)
+
+    # Разбить результат на строки
+    lines = result.stdout.split('\n')
+
+    # Найти строку с информацией о часовом поясе
+    timezone_line = next((line for line in lines if 'Time zone' in line), None)
+
+    if timezone_line:
+        # Получить название часового пояса
+        timezone = timezone_line.split(':')[1].strip()
+        return timezone
+    else:
+        return None
+
+
 @router.message(F.text == "Vaqtni tekshirish")
 async def check_time(message: Message):
-    # Получаем текущее время и часовой пояс
+    # Получаем текущее время
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    current_timezone = time.tzname[0]
+
+    # Получаем текущий часовой пояс сервера
+    server_timezone = await get_server_timezone()
 
     # Отправляем данные пользователю
-    response_message = f"Serverdagi vaqt: {current_time}\n"
-    response_message += f"Soat mintaqasi: {current_timezone}"
+    if server_timezone:
+        response_message = f"Serverdagi vaqt: {current_time}\n"
+        response_message += f"Soat mintaqasi: {server_timezone}"
+    else:
+        response_message = "Uzur, serverning vaqtini aniqlab bo'lmadi."
     await message.answer(response_message)
+
