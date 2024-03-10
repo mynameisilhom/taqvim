@@ -2,7 +2,7 @@ import mysql.connector
 from aiogram import F, Router
 from aiogram.filters import CommandStart
 from aiogram.types import CallbackQuery, Message
-from datetime import date
+from datetime import date, datetime, time
 import keyboards as kb
 from config import host, user, password, database, ADMINS
 from scheduler import bot
@@ -49,7 +49,7 @@ async def get_today_timings(message: Message):
         for row in timings_rows:
             response_message += (f"<b>Xudud:</b> {row[1]},\n"
                                  f"<b>Sana:</b> {row[5]},\n"
-                                 f"<b>Hijriy sana:</b> {row[7]}-{row[6]} 1445 yil,\n"
+                                 f"<b>Hijriy sana:</b> {row[7]} {row[6]} 1445 yil,\n"
                                  f"<b>Hafta kuni:</b> {row[8]},\n"
                                  f"<b>Tong/saharlik:</b> {row[9]},\n"
                                  f"<b>Quyosh:</b> {row[10]},\n"
@@ -117,3 +117,15 @@ async def admin_message_handler(message: Message):
             await bot.send_message(user_id[0], message.text)
         except Exception as e:
             print(f"Failed to send message to user {user_id}: {e}")
+
+
+@router.message(F.text == "Vaqtni tekshirish")
+async def check_time(message: Message):
+    # Получаем текущее время и часовой пояс
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    current_timezone = time.tzname[0]
+
+    # Отправляем данные пользователю
+    response_message = f"Serverdagi vaqt: {current_time}\n"
+    response_message += f"Soat mintaqasi: {current_timezone}"
+    await message.answer(response_message)

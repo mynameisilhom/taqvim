@@ -24,6 +24,7 @@ async def inline_regions():
 
 change_region = [
     [types.KeyboardButton(text="Bugungi vaqtlarni olish")],
-    [types.KeyboardButton(text="Xududni o\'zgartirish")]
+    [types.KeyboardButton(text="Xududni o\'zgartirish")],
+    [types.KeyboardButton(text="Vaqtni tekshirish")]
 ]
 keyboard = types.ReplyKeyboardMarkup(keyboard=change_region, resize_keyboard=True)
