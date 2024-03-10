@@ -1,5 +1,5 @@
 TOKEN = '7164579995:AAHe3Odd5Mwpovfgk0A4GV8QxfE8KeScp_U'
-# TOKEN = '6129113361:AAGfSoxHY8uhY_tXizDKHhTCpvAA2E6sfdU'
+# TOKEN = '5247774024:AAH6LRExYe8sfHQR-gzxqryhPxOdgGwy2fU'
 DATABASE = "mysql+mysqlconnector://root:root@localhost/ramazon"
 ADMINS = 505825849  # Замените на реальные user_id администраторов вашего бота
 

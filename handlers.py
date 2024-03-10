@@ -92,9 +92,10 @@ async def choosen_region(callback: CallbackQuery):
     # Закрыть инлайн клавиатуру
     await callback.message.edit_reply_markup(reply_markup=None)
     # Скрыть приветственное сообщение
-    await callback.message.delete(reply_markup=kb.keyboard)
+    await callback.message.delete()
 
-    # await callback.message.answer("Xududni o\'zgartirish", reply_markup=kb.keyboard)
+    await callback.message.answer("Xududni o'zgartirish va bugungi kungi taqvimni pastgi tugmalar orqali olishingiz "
+                                  "mumkin", reply_markup=kb.keyboard)
 
     cursor.close()
     connection.close()
